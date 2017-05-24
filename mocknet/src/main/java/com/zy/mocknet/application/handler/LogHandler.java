@@ -33,6 +33,9 @@ public class LogHandler extends Handler {
         Logger.d(builder.toString());
         builder.setLength(0);
 
+        Utils.getInstance().outputLine();
+        Logger.d(request.getParamString());
+
         Utils.getInstance().outputTitle("RESPONSE");
         builder.append(response.toString());
         Logger.d(builder.toString());

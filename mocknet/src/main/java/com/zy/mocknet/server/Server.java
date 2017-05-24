@@ -6,6 +6,7 @@ import com.zy.mocknet.common.logger.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -25,23 +26,30 @@ public class Server {
     }
 
     public void start() {
-        Logger.d("Mock Server Start");
+        Logger.d("!!! Mock Server Start !!!");
         running = true;
         while (running) {
             try {
                 Socket socket = serverSocket.accept();
+                if (socket.isClosed()) {
+                    continue;
+                }
+                Logger.d(" \n");
+                Logger.d("===========================================================\n");
                 Logger.d("Request Comming");
                 RequestRunnable runnable = new RequestRunnable(socket, executor);
                 Future<?> future = ThreadPool.getInstance().submit(runnable);
                 try {
                     if (future.get() == null) {
-                        Logger.d("Accept Request Success");
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+            } catch (SocketException e) {
+                Logger.d("!!! ServerSocket closed !!!");
+                running = false;
             } catch (IOException e) {
                 Logger.exception(e);
             }
@@ -49,7 +57,7 @@ public class Server {
     }
 
     public void stop() {
-        Logger.d("Mock Server Stop");
+        Logger.d("!!! Mock Server Stop !!!");
         running = false;
         ThreadPool.getInstance().shutdownNow();
         try {

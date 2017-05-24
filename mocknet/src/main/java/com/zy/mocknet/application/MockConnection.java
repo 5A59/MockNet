@@ -221,6 +221,11 @@ public class MockConnection {
             return this;
         }
 
+        public Builder setHttpVersion(String version) {
+            connection.request.httpVersion = version;
+            return this;
+        }
+
         public Builder setResponseStatusCode(int code) {
             connection.response.resStatusCode = code;
             return this;

@@ -16,7 +16,7 @@ public class ThreadPool {
     private ExecutorService executorService;
 
     private ThreadPool() {
-        executorService = Executors.newFixedThreadPool(MAX_THREAD);
+        initService();
     }
 
     private static synchronized void syncInit() {
@@ -32,11 +32,18 @@ public class ThreadPool {
         return threadPool;
     }
 
+    private synchronized void initService() {
+        executorService = Executors.newFixedThreadPool(MAX_THREAD);
+    }
+
     public Future<?> submit(Runnable runnable) {
+        if (executorService.isShutdown()) {
+            initService();
+        }
         return executorService.submit(runnable);
     }
 
-    public List<Runnable> shutdownNow() {
+    public synchronized List<Runnable> shutdownNow() {
         return executorService.shutdownNow();
     }
 

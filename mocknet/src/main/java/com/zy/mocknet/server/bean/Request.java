@@ -108,6 +108,18 @@ public class Request {
         }
     }
 
+    public String getParamString() {
+        // params
+        StringBuilder builder = new StringBuilder();
+        if (params != null) {
+            for (Map.Entry<String, String> e : params.getParams().entrySet()) {
+                builder.append(e.getKey()).append(" = ").append(e.getValue()).append("\n");
+            }
+        }
+        builder.append("\n");
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -119,12 +131,6 @@ public class Request {
                 .append(httpVresion)
                 .append(BasicRule.CRLF);
 
-        // params
-//        if (params != null) {
-//            for (Map.Entry<String, String> e : params.getParams().entrySet()) {
-//                builder.append(e.getKey()).append(" = ").append(e.getValue()).append("\n");
-//            }
-//        }
 
         // headers
         if (header != null) {

@@ -23,11 +23,11 @@ public class BlockHandler extends Handler {
         MockConnection connection =
                 ConnectionStore.getInstance().getConnection(request.getMethod(), request.getRequestUri());
         if (connection != null) {
-            Utils.getInstance().outputTitle("BLOCKING");
             int time = connection.getBlockTime();
             if (time == MockConnection.NO_BLOCK) {
                 return response;
             }
+            Utils.getInstance().outputTitle("BLOCKING");
             Logger.d(String.format("START BLOCKING %d ms", time));
             try {
                 Thread.sleep(time);

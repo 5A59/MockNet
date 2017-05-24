@@ -32,7 +32,7 @@ public class JavaPrinter implements Printer {
         String[] spMsg = formatString(msg);
         for (String s : spMsg) {
             printTag(tag);
-            System.out.println(msg);
+            System.out.println(s);
         }
     }
 

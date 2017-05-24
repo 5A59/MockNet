@@ -1,5 +1,7 @@
 package com.zy.mocknet.server.bean;
 
+import com.zy.mocknet.common.Utils;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -10,7 +12,7 @@ import java.util.Random;
  * Created by zy on 17-3-16.
  */
 public class RequestBody {
-    private static int MAX_BUFFER_IN_MEMORY = 2048;
+    private static int MAX_BUFFER_IN_MEMORY = 0;
     private long contentLen;
     private long validLen;
     private byte[] content;
@@ -23,9 +25,10 @@ public class RequestBody {
     public RequestBody(long contentLen) throws FileNotFoundException {
         this.contentLen = contentLen;
         if (contentLen > MAX_BUFFER_IN_MEMORY) {
-            filename = getContentFileName();
-            contentFile = new RandomAccessFile(filename, "rw");
             random = new Random();
+            filename = getContentFileName();
+//            contentFile = new RandomAccessFile(filename, "rw");
+            contentFile = Utils.getInstance().getTmpRandomAccessFile(filename, "rw");
         }else {
             content = new byte[(int) contentLen];
         }
@@ -90,6 +93,8 @@ public class RequestBody {
             }
         }
         ByteBuffer buffer = ByteBuffer.wrap(content);
+//        ByteBuffer buffer = ByteBuffer.allocate(content.length).put(content);
+//        buffer.put(content);
         return buffer;
     }
 
@@ -97,8 +102,9 @@ public class RequestBody {
         try {
             if (contentFile != null) {
                 contentFile.close();
-                File file = new File(filename);
-                file.delete();
+//                File file = new File(filename);
+//                file.delete();
+                Utils.getInstance().rmTmpRandomAccessFile(filename);
             }
         } catch (IOException e) {
             e.printStackTrace();

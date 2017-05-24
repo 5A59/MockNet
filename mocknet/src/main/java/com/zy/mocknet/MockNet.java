@@ -5,6 +5,8 @@ import com.zy.mocknet.application.MockConnection;
 import com.zy.mocknet.application.MockRequestExecutor;
 import com.zy.mocknet.application.handler.Handler;
 import com.zy.mocknet.application.selector.IConnectionSelector;
+import com.zy.mocknet.common.Utils;
+import com.zy.mocknet.common.logger.AndroidPrinter;
 import com.zy.mocknet.common.logger.Logger;
 import com.zy.mocknet.server.Server;
 import com.zy.mocknet.server.ThreadPool;
@@ -19,17 +21,44 @@ public class MockNet {
 
     private MockRequestExecutor executor;
     private Server server;
-    private int port;
 
     private MockNet() {
         executor = new MockRequestExecutor();
     }
 
+    /**
+     * Create a MockNet instance.<br>
+     * It will init this instance by judging whether the system is Android or not.
+     * @return MockNet
+     */
     public static MockNet create() {
-        Logger.init();
+        // TODO: can work but not good
+        try {
+            Class.forName("android.app.Application");
+            initAndroid();
+            Logger.d("Current system is Android");
+        } catch (ClassNotFoundException e) {
+            initJava();
+            Logger.d("Current system is not Android");
+        }
+        String system = Utils.getInstance().getSystem();
+        Logger.d(system);
         return new MockNet();
     }
 
+    private static void initAndroid() {
+        Logger.init(new AndroidPrinter());
+    }
+
+    private static void initJava() {
+        Logger.init();
+    }
+
+    /**
+     *
+     * @param handler
+     * @return
+     */
     public MockNet addHandler(Handler handler) {
         executor.addUserHandler(handler);
         return this;
@@ -55,19 +84,22 @@ public class MockNet {
         return this;
     }
 
-    public void start() {
+    public MockNet start() {
         server = Server.createHttpServer(executor);
         runServer();
+        return this;
     }
 
-    public void start(int port) {
+    public MockNet start(int port) {
         server = Server.createHttpServer(port, executor);
         runServer();
+        return this;
     }
 
-    public void start(ServerSocket serverSocket) {
+    public MockNet start(ServerSocket serverSocket) {
         server = Server.createServer(serverSocket);
         runServer();
+        return this;
     }
 
     public void runServer() {
@@ -80,7 +112,8 @@ public class MockNet {
         });
     }
 
-    public void stop() {
+    public MockNet stop() {
         server.stop();
+        return this;
     }
 }

@@ -28,11 +28,11 @@ public final class MockConnectionFactory {
     }
 
     public MockConnection createGeneralConnection(String url, String body) {
-        return createGeneralConnection(MockConnection.GET, url, "text", body);
+        return createGeneralConnection(MockConnection.GET, url, "text/plain", body);
     }
 
     public MockConnection createGeneralConnection(String method, String url, String body) {
-        return createGeneralConnection(method, url, "text", body);
+        return createGeneralConnection(method, url, "text/plain", body);
     }
 
     public MockConnection createGeneralConnection(String method, String url,
@@ -42,6 +42,8 @@ public final class MockConnectionFactory {
                 .setMethod(method)
                 .setUrl(url)
                 .addResponseHeader("Content-Type", contentType)
+                .addResponseHeader("Connection", "close")
+                .addResponseHeader("Server", "MockNet")
                 .addResponseHeader("Content-Length", String.valueOf(body.getBytes().length))
                 .setResponseStatusCode(200)
                 .setResponseReasonPhrase("OK")
@@ -50,11 +52,11 @@ public final class MockConnectionFactory {
     }
 
     public MockConnection create404Connection(String url, String body) {
-        return create404Connection(MockConnection.GET, url, "text", body);
+        return create404Connection(MockConnection.GET, url, "text/plain", body);
     }
 
     public MockConnection create404Connection(String method, String url, String body) {
-        return create404Connection(method, url, "text", body);
+        return create404Connection(method, url, "text/plain", body);
     }
 
     public MockConnection create404Connection(String method, String url,
@@ -64,6 +66,10 @@ public final class MockConnectionFactory {
                 .setMethod(method)
                 .setUrl(url)
                 .setResponseStatusCode(404)
+                .addResponseHeader("Content-Type", contentType)
+                .addResponseHeader("Connection", "close")
+                .addResponseHeader("Server", "MockNet")
+                .addResponseHeader("Content-Length", String.valueOf(body.getBytes().length))
                 .setResponseReasonPhrase("NotFound")
                 .setResponseBody(contentType, body);
         return builder.build();

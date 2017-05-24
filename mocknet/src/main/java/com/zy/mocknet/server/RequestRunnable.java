@@ -9,6 +9,8 @@ import com.zy.mocknet.server.bean.Response;
 import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,6 +25,7 @@ public class RequestRunnable implements Runnable {
     private static final String HEADER_CONTENT_DISPOSITION = "Content-Disposition";
 
     private static final String TAG_BOUNDARY = "boundary=";
+    private static final String TAG_CHARSET = "charset=";
 
     private static final String CONTENT_TYPE_FORM_URLENCODED = "application/x-www-form-urlencoded";
     private static final String CONTENT_TYPE_FORM_DATA = "multipart/form-data";
@@ -207,8 +210,14 @@ public class RequestRunnable implements Runnable {
         if (conType == null || conType.isEmpty()) {
             return ;
         }
+        String charset = getCharset(conType);
+        charset = charset == null ? "utf-8" : charset;
+
         if (conType.contains(CONTENT_TYPE_FORM_URLENCODED)) {
-            String body = new String(request.getBody().getContent());
+            ByteBuffer byteBuffer = request.getBody().getContentByteBuffer();
+            CharBuffer charBuffer =
+                    Charset.forName(charset).newDecoder().decode(byteBuffer.asReadOnlyBuffer());
+            String body = charBuffer.toString();
             parseParams(request, body);
         }else if (conType.contains(CONTENT_TYPE_FORM_DATA)) {
             int index = conType.indexOf(TAG_BOUNDARY);
@@ -287,7 +296,6 @@ public class RequestRunnable implements Runnable {
                 }
 
                 // handle body byte
-                // TODO: handle body encode
                 int headerEndPos = -1;
                 for (int bufI = 0; bufI < l - 4; bufI ++) {
                     if (buf[bufI] == '\r'
@@ -305,6 +313,7 @@ public class RequestRunnable implements Runnable {
                 byteBuffer.position((int) (i + boundary.length() + 2 + headerEndPos));
 
                 OutputStream outputStream;
+                // TODO: what if filename is null but this part is a file ?
                 if (isFile(type, filename)) {
                     outputStream = new FileOutputStream(filename);
                 }else {
@@ -316,7 +325,13 @@ public class RequestRunnable implements Runnable {
                     outputStream.write(buf, 0, len);
                 }
                 if (!isFile(type, filename)) {
-                    String val = new String(((ByteArrayOutputStream) outputStream).toByteArray());
+                    String cs = getCharset(type);
+                    String val = "";
+                    if (cs == null) {
+                        val = new String(((ByteArrayOutputStream) outputStream).toByteArray());
+                    }else {
+                        val = new String(((ByteArrayOutputStream) outputStream).toByteArray(), cs);
+                    }
                     request.addParam(name, val);
                 }else {
                     request.addParam(name, filename);
@@ -324,6 +339,14 @@ public class RequestRunnable implements Runnable {
             }
 
         }
+    }
+
+    private String getCharset(String conType) {
+        if (!conType.contains(TAG_CHARSET)) {
+            return null;
+        }
+        int index = conType.indexOf(TAG_CHARSET) + TAG_CHARSET.length();
+        return conType.substring(index);
     }
 
     private boolean isFile(String type, String filename) {
