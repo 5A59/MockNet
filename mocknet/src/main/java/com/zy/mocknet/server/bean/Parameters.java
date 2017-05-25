@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Http params.
  * Created by zy on 17-3-18.
  */
 public class Parameters {

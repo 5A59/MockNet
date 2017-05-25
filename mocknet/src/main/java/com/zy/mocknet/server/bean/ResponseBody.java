@@ -3,6 +3,7 @@ package com.zy.mocknet.server.bean;
 import java.io.*;
 
 /**
+ * Http response body.
  * Created by zy on 17-3-16.
  */
 public class ResponseBody {

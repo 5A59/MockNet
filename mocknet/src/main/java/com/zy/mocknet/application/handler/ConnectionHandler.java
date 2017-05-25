@@ -3,13 +3,13 @@ package com.zy.mocknet.application.handler;
 import com.zy.mocknet.application.ConnectionStore;
 import com.zy.mocknet.application.MockConnection;
 import com.zy.mocknet.application.handler.chain.HandlerChain;
-import com.zy.mocknet.application.selector.IConnectionSelector;
 import com.zy.mocknet.server.bean.Headers;
 import com.zy.mocknet.server.bean.Request;
 import com.zy.mocknet.server.bean.Response;
 import com.zy.mocknet.server.bean.ResponseBody;
 
 /**
+ * It gets Response from MockConnection by Request.
  * Created by zy on 17-3-20.
  */
 public class ConnectionHandler extends Handler {

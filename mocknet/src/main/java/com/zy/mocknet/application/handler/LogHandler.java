@@ -9,6 +9,7 @@ import com.zy.mocknet.server.bean.Request;
 import com.zy.mocknet.server.bean.Response;
 
 /**
+ * It logs the Request and Response.
  * Created by zy on 17-3-5.
  */
 public class LogHandler extends Handler {

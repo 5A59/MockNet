@@ -3,6 +3,7 @@ package com.zy.mocknet.server.bean;
 import java.util.Map;
 
 /**
+ * Http request.
  * Created by zy on 17-3-5.
  */
 public class Request {

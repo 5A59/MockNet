@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
+ * Singleton Pattern.
  * Created by zy on 17-3-5.
  */
 public class ThreadPool {
@@ -25,6 +26,10 @@ public class ThreadPool {
         }
     }
 
+    /**
+     * Get instance of ThreadPool
+     * @return
+     */
     public static  ThreadPool getInstance() {
         if (threadPool == null){
             syncInit();

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * A store to save @see MockConnection <br>
+ * It uses url and method of request to get or put MockConnection. <br>
+ * If there are more than one MockConnection can be found with the same url and method,
+ *   it will choose one of the by selector.
  * Created by zy on 17-3-5.
  */
 public class ConnectionStore {
@@ -38,6 +42,11 @@ public class ConnectionStore {
         return instance;
     }
 
+    /**
+     * Add instance of MockConnection.
+     * @param con
+     * @return
+     */
     public boolean addConnection(MockConnection con) {
         if (con == null || con.getUrl() == null || con.getMethod() == null) {
             return false;
@@ -60,14 +69,31 @@ public class ConnectionStore {
         return connList.add(con);
     }
 
+    /**
+     * Set selector for choosing connection.
+     * @param selector
+     */
     public void setSelector(IConnectionSelector selector) {
         this.selector = selector;
     }
 
+    /**
+     * Get MockConnection by default selector.
+     * @param method
+     * @param url
+     * @return
+     */
     public MockConnection getConnection(String method, String url) {
         return getConnection(method, url, selector);
     }
 
+    /**
+     * Get MockConnection by specific selector.
+     * @param method
+     * @param url
+     * @param selector
+     * @return
+     */
     public MockConnection getConnection(String method, String url, IConnectionSelector selector) {
         if (method == null || method.isEmpty() || url == null || url.isEmpty()) {
             Logger.d("=== Request Is Invalid ===");

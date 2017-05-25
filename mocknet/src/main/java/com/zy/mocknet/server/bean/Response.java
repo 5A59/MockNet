@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
+ * Http response
  * Created by zy on 17-3-5.
  */
 public class Response {

@@ -9,6 +9,7 @@ import com.zy.mocknet.server.bean.Request;
 import com.zy.mocknet.server.bean.Response;
 
 /**
+ * It will block some time when the request is received.
  * Created by zy on 17-3-28.
  */
 public class BlockHandler extends Handler {

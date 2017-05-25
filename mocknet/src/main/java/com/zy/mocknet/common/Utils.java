@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
 /**
+ * Some common methods.
  * Created by zy on 17-3-16.
  */
 public class Utils {

@@ -9,6 +9,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 /**
+ * Providing several instances of ServerSocket.
  * Created by zy on 17-3-29.
  */
 public class ServerSocketFactory {
@@ -29,6 +30,11 @@ public class ServerSocketFactory {
         return instance;
     }
 
+    /**
+     * Create a ServerSocket of http with specific port.<br>
+     * @param port
+     * @return Return ServerSocket instance or null if the port is occupied.
+     */
     public ServerSocket createHttpServerSocket(int port) {
         try {
             return new ServerSocket(port);
@@ -38,6 +44,13 @@ public class ServerSocketFactory {
         return null;
     }
 
+    /**
+     * Create a ServerSocket of https with specific port.<br>
+     * @param port
+     * @param jksPath Path of keyStore
+     * @param storePwd Pwd of keyStore
+     * @return Return ServerSocket instance or null if the port is occupied.
+     */
     public ServerSocket createHttpsServerSocket(int port, String jksPath, String storePwd) {
         try {
             KeyStore keyStore = KeyStore.getInstance("JKS"); // JKS: Java Key Store

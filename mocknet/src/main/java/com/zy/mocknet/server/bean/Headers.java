@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Http headers.
  * Created by zy on 17-3-16.
  */
 public class Headers {

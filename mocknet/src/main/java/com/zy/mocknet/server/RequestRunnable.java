@@ -17,6 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * This class finishes the jobs of parsing http data. <br>
+ * It will run in thread.
  * Created by zy on 17-3-5.
  */
 public class RequestRunnable implements Runnable {

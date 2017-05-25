@@ -12,6 +12,7 @@ import com.zy.mocknet.server.bean.Response;
 import java.util.Map;
 
 /**
+ * It verifies the request header key-value.
  * Created by zy on 17-3-21.
  */
 public class VerifyHeaderHandler extends Handler {

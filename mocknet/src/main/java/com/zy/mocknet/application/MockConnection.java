@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A MockConnection contains a request and a response. <br>
+ * When a request matchs one of the MockConnection, it will return the response.
  * Created by zy on 17-3-5.
  */
 public class MockConnection {

@@ -55,47 +55,83 @@ public class MockNet {
     }
 
     /**
-     *
+     * Add request handler to executor.
      * @param handler
-     * @return
+     * @return Return mocknet instance.
      */
     public MockNet addHandler(Handler handler) {
         executor.addUserHandler(handler);
         return this;
     }
 
+    /**
+     * Add a list of request handlers to executor.
+     * @param handlers list of handlers
+     * @return Return mocknet instance.
+     */
     public MockNet addHandler(List<Handler> handlers) {
         executor.addUserHandler(handlers);
         return this;
     }
 
+    /**
+     * Add MockConnection to @see ConnectionStore
+     * @param connection MockConnection instance
+     * @return Return mocknet instance.
+     */
     public MockNet addConnection(MockConnection connection) {
         ConnectionStore.getInstance().addConnection(connection);
         return this;
     }
 
+    /**
+     * Add MockConnection to @see ConnectionStore
+     * @param builder MockConnection builder instance
+     * @return Return mocknet instance.
+     */
     public MockNet addConnection(MockConnection.Builder builder) {
         ConnectionStore.getInstance().addConnection(builder.build());
         return this;
     }
 
+    /**
+     * Set selector when multiple MockConnections can be found with the same url and method.
+     * @param selector
+     * @return Return mocknet instance.
+     */
     public MockNet setSelector(IConnectionSelector selector) {
         ConnectionStore.getInstance().setSelector(selector);
         return this;
     }
 
+    /**
+     * Start server with default port 8088 <br>
+     * We will create a HttpServer with default params.
+     * @return Return mocknet instance.
+     */
     public MockNet start() {
         server = Server.createHttpServer(executor);
         runServer();
         return this;
     }
 
+    /**
+     * Start server with specific port. <br>
+     * We will create a HttpServer with other default params.
+     * @param port
+     * @return Return mocknet instance.
+     */
     public MockNet start(int port) {
         server = Server.createHttpServer(port, executor);
         runServer();
         return this;
     }
 
+    /**
+     * Start server with specific @see ServerSocket.
+     * @param serverSocket
+     * @return Return mocknet instance.
+     */
     public MockNet start(ServerSocket serverSocket) {
         server = Server.createServer(serverSocket);
         runServer();
@@ -112,6 +148,10 @@ public class MockNet {
         });
     }
 
+    /**
+     * Stop server.
+     * @return Return mocknet instance.
+     */
     public MockNet stop() {
         server.stop();
         return this;

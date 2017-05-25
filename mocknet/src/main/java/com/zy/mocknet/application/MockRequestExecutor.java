@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This class handles request and returns response to Server.
  * Created by zy on 17-3-17.
  */
 public class MockRequestExecutor implements RequestExecutor {

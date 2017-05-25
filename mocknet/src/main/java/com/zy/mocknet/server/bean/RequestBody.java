@@ -9,10 +9,12 @@ import java.util.Date;
 import java.util.Random;
 
 /**
+ * Http request body.
+ * Using RandomAccessFile to save body when large then 1M.
  * Created by zy on 17-3-16.
  */
 public class RequestBody {
-    private static int MAX_BUFFER_IN_MEMORY = 0;
+    private static int MAX_BUFFER_IN_MEMORY = 1024;
     private long contentLen;
     private long validLen;
     private byte[] content;
