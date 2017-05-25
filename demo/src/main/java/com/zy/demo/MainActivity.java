@@ -3,6 +3,7 @@ package com.zy.demo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -54,42 +55,48 @@ public class MainActivity extends AppCompatActivity {
 
         mockNet = MockNet.create()
                 .addConnection(MockConnectionFactory.getInstance()
-                        .createGeneralConnection("/*", "general connection"))
+                        .createGeneralConnection("/test", "test msg"))
                 .addConnection(MockConnectionFactory.getInstance()
-                        .createGeneralConnection(MockConnection.POST, "/*", "general connection"))
-                .addConnection(new MockConnection.Builder()
-                        .setMethod(MockConnection.GET)
-                        .setUrl("/test")
-                        .setResponseBody("text/json", "first test")
-                        .addResponseHeader("Content-Length", "" + "first test".length())
-                        .addRequestHeader("Content-Length", "" + con.length)
-                        .setVerifyHeaders(true)
-                )
-                .addConnection(new MockConnection.Builder()
-                        .setMethod(MockConnection.GET)
-                        .setUrl("/test")
-                        .setResponseBody("text/json", "second test")
-                        .addResponseHeader("Content-Length", "" + "second test".length())
-                        .addRequestHeader("Content-Length", "" + con.length)
-                        .setVerifyHeaders(true)
-                )
-                .addConnection(new MockConnection.Builder()
-                        .setMethod(MockConnection.GET)
-                        .setUrl("/test")
-                        .setResponseBody("text/json", con, con.length)
-                        .addResponseHeader("Content-Length", "" + con.length)
-                        .addRequestHeader("Content-Length", "" + con.length)
-                        .setVerifyHeaders(true)
-                )
-                .addConnection(new MockConnection.Builder()
-                        .setMethod(MockConnection.POST)
-                        .setUrl("/test")
-                        .setResponseBody("text/json", con, con.length)
-                        .addResponseHeader("Content-Length", "" + con.length)
-                        .addRequestHeader("Content-Length", "" + con.length)
-                        .setVerifyHeaders(true)
-                )
-                .setSelector(new RandomSelector());
+                        .createGeneralConnection("/test1", "{'msg':'json'}"));
+
+//        mockNet = MockNet.create()
+//                .addConnection(MockConnectionFactory.getInstance()
+//                        .createGeneralConnection("/*", "general connection"))
+//                .addConnection(MockConnectionFactory.getInstance()
+//                        .createGeneralConnection(MockConnection.POST, "/*", "general connection"))
+//                .addConnection(new MockConnection.Builder()
+//                        .setMethod(MockConnection.GET)
+//                        .setUrl("/test")
+//                        .setResponseBody("text/json", "first test")
+//                        .addResponseHeader("Content-Length", "" + "first test".length())
+//                        .addRequestHeader("Content-Length", "" + con.length)
+//                        .setVerifyHeaders(true)
+//                )
+//                .addConnection(new MockConnection.Builder()
+//                        .setMethod(MockConnection.GET)
+//                        .setUrl("/test")
+//                        .setResponseBody("text/json", "second test")
+//                        .addResponseHeader("Content-Length", "" + "second test".length())
+//                        .addRequestHeader("Content-Length", "" + con.length)
+//                        .setVerifyHeaders(true)
+//                )
+//                .addConnection(new MockConnection.Builder()
+//                        .setMethod(MockConnection.GET)
+//                        .setUrl("/test")
+//                        .setResponseBody("text/json", con, con.length)
+//                        .addResponseHeader("Content-Length", "" + con.length)
+//                        .addRequestHeader("Content-Length", "" + con.length)
+//                        .setVerifyHeaders(true)
+//                )
+//                .addConnection(new MockConnection.Builder()
+//                        .setMethod(MockConnection.POST)
+//                        .setUrl("/test")
+//                        .setResponseBody("text/json", con, con.length)
+//                        .addResponseHeader("Content-Length", "" + con.length)
+//                        .addRequestHeader("Content-Length", "" + con.length)
+//                        .setVerifyHeaders(true)
+//                )
+//                .setSelector(new RandomSelector());
     }
 
     private void initVolley() {
@@ -111,13 +118,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Logger.d(response);
+                        toast(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Logger.d(error.toString());
-                        Logger.d("response error");
+                        toast("response error");
                     }
                 }) {
 
@@ -140,11 +148,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onMySuccess(String result) {
                         Logger.d(result);
+                        toast(result);
                     }
 
                     @Override
                     public void onMyError(VolleyError error) {
                         Logger.d("error");
+                        toast("error");
                     }
                 }));
     }
@@ -159,12 +169,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Logger.d(response);
+                toast(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Logger.d("error");
+                toast("error");
             }
         }));
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
