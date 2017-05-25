@@ -18,9 +18,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url 'https://dl.bintray.com/zy5a59/MockNet'
-        }
     }
 }
 

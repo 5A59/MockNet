@@ -1,21 +1,12 @@
 ## MockNet使用指南
 
 ### 框架介绍
-通过 MockNet，不需要服务器相关知识就可以在 Android 本地创建服务器用于接口快速开发和网络测试。通过简单的代码就可以快速模拟后台返回数据，而不需要调整现有的网络接口。
+MockNet 用于快速搭建本地服务器，方便开发和测试接口。不需要任何服务器知识，只需要简单几行代码，就可以搭建一个本地服务器。不需要更改项目中网络访问代码就可以进行接口测试，可以和后台接口同步开发甚至先于后台接口进行开发。
 
 ### 下载
 Gradle 
 ``` gradle
-// 在项目的 gradle 文件中添加下面的代码
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-            url 'https://dl.bintray.com/zy5a59/MockNet'
-        }
-    }
-}
-// 在模块的 gradle 文件中添加下面的代码
+// 在模块的 gradle 文件中添加下面的代码  
 compile 'com.zy.mocknet:mocknet:1.0'
 ```
 
@@ -35,7 +26,6 @@ jar包下载
 ### 使用方法
 可参考 [demo](./demo/src/main/java/com/zy/demo/MainActivity.java)  
 
-MockNet 中，对每一个请求及其响应称为一个 Connection，具体对应的类是 MockConnection。 
 具体使用步骤如下：
 
 #### 0. 修改访问 ip
@@ -48,6 +38,7 @@ MockNet mockNet = MockNet.create();
 ```
 
 #### 2. 添加对请求的处理
+MockNet 中，对每一个请求及其响应称为一个 Connection，具体对应的类是 MockConnection。 
 项目中提供了多种添加 MockConnection 的方法，如下：
 
 * 通过 MockConnectionFactory 构建一个 MockConnection，createGeneralConnection(String url, String body) 会创建一个处理 GET 请求的 MockConnection，并返回 body，默认 Content-Type 是 "text/plain"。
