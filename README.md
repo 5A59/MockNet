@@ -33,6 +33,7 @@ jar包下载
 [mocknet_1_0_0.jar](./jar/mocknet_1_0_0.jar)
 
 ### 使用方法
+可参考 [demo](./demo/src/main/java/com/zy/demo/MainActivity.java)  
 
 MockNet 中，对每一个请求及其响应称为一个 Connection，具体对应的类是 MockConnection。 
 具体使用步骤如下：
@@ -175,7 +176,8 @@ mockNet.start(ServerSocketFactory.createHttpsServerSocket(int port, String jksPa
 具体可以参考 MockRequestExecutor 的实现以及 Server 构造函数。
 
 ### 整体架构简析 
-![架构图](./proDocs/mocknet.png)
+![架构图](./proDocs/mocknet.png)  
+
 整体架构可以分为两层，server 层和 application 层。
 server 层主要做的是 socket 通信以及 Request 和 Response 的解析，解析结果会传入 RequestExecutor 中做处理。
 application 层主要是对 request 的处理和对 response 的生成，MockRequestExecutor 实现了 RequestExecutor 接口，其中主要通过责任链模式来对 Request 处理。
