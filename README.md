@@ -58,14 +58,6 @@ MockConnectio conn = MockConnectionFactory.getInstance()
 mockNet.addConnection(conn);
 ```
 
-* 通过 MockConnectionFactory 构建一个 MockConnection，createGeneralConnection(String method, String url, String body) 会创建一个处理 method 指定的请求的 MockConnection，并返回 body，默认 Content-Type 是 "text/plain"。
-
-``` java
-MockConnection conn = MockConnectionFactory.getInstance()
-    .createGeneralConnection(MockConnection.POST, "/*", "general connection");
-mockNet.addConnection(conn);
-```
-
 * 添加返回 json 的请求处理  
 通过 MockConnectionFactory 构建一个 MockConnection，createGeneralConnection(String method, String url, String contentType, String body) 会创建一个处理 method 指定的请求的 MockConnection，并返回 body。  
 
