@@ -105,7 +105,10 @@ mockNet.addConnection(builder);
 #### 3. 启动服务
 
 ``` java
+// 使用默认的 8088 端口
 mockNet.start();
+// 使用指定的端口
+mockNet.start(int port);
 ```
 
 #### 4. 关闭服务
